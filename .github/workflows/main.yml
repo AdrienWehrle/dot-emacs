@@ -1,22 +1,4 @@
-name: Emacs Lisp Check
-
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Emacs Lisp check
-        uses: leotaku/elisp-check@master
-        with:
-          file: init.el
-          ignore_warnings: true
-          warnings_as_errors: false
+uses: leotaku/elisp-check@master
+with:
+  check: ert
+  file: test-file.el
