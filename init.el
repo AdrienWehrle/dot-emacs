@@ -12,7 +12,7 @@
 (defvar myPackages
   '(better-defaults                 ;; Set up some better Emacs defaults
     elpy                            ;; Emacs Lisp Python Environment
-    spacemacs-dark                  ;; Spacemacs dark theme
+    spacemacs-theme                 ;; Spacemacs theme
     flycheck                        ;; On the fly syntax checking
     blacken                         ;; Black formatting on save
     magit                           ;; Git integration
