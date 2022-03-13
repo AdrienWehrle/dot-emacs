@@ -189,13 +189,13 @@
 		  (next-line 10)))
 
 ;; move to the middle of the current line
-(defun my/move-to-middle () 
+(defun my-move-to-middle () 
   (interactive) 
   (let* ((begin (line-beginning-position)) 
 	 (end (line-end-position)) 
 	 (middle (/ (+ end begin) 2))) 
     (goto-char middle)))
-(global-set-key (kbd "M-s") 'my/move-to-middle)
+(global-set-key (kbd "M-s") 'my-move-to-middle)
 
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
