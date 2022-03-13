@@ -17,7 +17,6 @@ jobs:
       - name: Emacs Lisp check
         uses: leotaku/elisp-check@master
         with:
-          check: load-file
           file: init.el
           ignore_warnings: true
           warnings_as_errors: false
