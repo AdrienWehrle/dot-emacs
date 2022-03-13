@@ -2,6 +2,14 @@
 
 My simple [[https://www.gnu.org/software/emacs/][emacs]] configuration with [[https://www.spacemacs.org/][spacemacs]] appearance ([[https://github.com/nashamri/spacemacs-theme#:~:text=Spacemacs%20theme%20is%20an%20Emacs,well%20with%20256%20color%20terminals.][spacemacs-theme]] and [[https://github.com/TheBB/spaceline][spaceline]]). 
 
+I use it mainly to code/write in:
+- Python 
+- C/C++
+- Shell/Bash
+- SWIG
+- TeX
+- Org mode
+
 ** Setup
 This is a very basic configuration at the moment, but if you want to try it:
 
