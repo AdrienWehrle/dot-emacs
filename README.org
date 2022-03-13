@@ -1,0 +1,4 @@
+* dot-emacs
+
+My simple [[https://www.gnu.org/software/emacs/][emacs]] configuration with [[https://www.spacemacs.org/][spacemacs]] appearance. 
+
