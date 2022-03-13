@@ -1,4 +1,31 @@
-* dot-emacs
+* Emacs configuration file
 
-My simple [[https://www.gnu.org/software/emacs/][emacs]] configuration with [[https://www.spacemacs.org/][spacemacs]] appearance. 
+My simple [[https://www.gnu.org/software/emacs/][emacs]] configuration with [[https://www.spacemacs.org/][spacemacs]] appearance ([[https://github.com/nashamri/spacemacs-theme#:~:text=Spacemacs%20theme%20is%20an%20Emacs,well%20with%20256%20color%20terminals.][spacemacs-theme]] and [[https://github.com/TheBB/spaceline][spaceline]]). 
+
+I use it mainly to code/write in:
+- Python 
+- C/C++
+- Shell/Bash
+- SWIG
+- TeX
+- Org mode
+
+** Setup
+This is a very basic configuration at the moment, but if you want to try it:
+
+First, clone the repository.
+#+BEGIN_SRC sh :tangle no
+git clone git@github.com:AdrienWehrle/dot-emacs.git
+#+END_SRC
+
+Backup your old =~/.emacs.d= and =~/.emacs=-file (if necessary).
+#+BEGIN_SRC sh :tangle no
+mv ~/.emacs.d ~/.emacs.d-bak
+mv ~/.emacs ~/.emacs-bak
+#+END_SRC
+
+And finally, make this configuration operational.
+#+BEGIN_SRC sh :tangle no
+mv dot-emacs ~/.emacs.d
+#+END_SRC
 
