@@ -8,6 +8,17 @@
 (package-refresh-contents)
 (package-install 'use-package))
 
+;; myPackages contains a list of package names
+(defvar myPackages
+  '(better-defaults                 ;; Set up some better Emacs defaults
+    elpy                            ;; Emacs Lisp Python Environment
+    spacemacs-dark                  ;; Spacemacs dark theme
+    flycheck                        ;; On the fly syntax checking
+    blacken                         ;; Black formatting on save
+    magit                           ;; Git integration
+    )
+  )
+
 ;; If there are no archived package contents, refresh them
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -295,16 +306,6 @@
 (add-hook 'ibuffer-mode-hook (lambda () (ibuffer-auto-mode 1)))
 
 ;; -------------------------------------------- python dev
-
-;; myPackages contains a list of package names
-(defvar myPackages
-  '(better-defaults                 ;; Set up some better Emacs defaults
-    elpy                            ;; Emacs Lisp Python Environment
-    flycheck                        ;; On the fly syntax checking
-    blacken                         ;; Black formatting on save
-    magit                           ;; Git integration
-    )
-  )
 
 (setq inhibit-startup-message t)    ;; Hide the startup message
 (global-linum-mode t)               ;; Enable line numbers globally
