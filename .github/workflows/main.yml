@@ -1,0 +1,46 @@
+# [[file:../../init.org::*Github Actions][Github Actions:1]]
+# This workflow will do a clean install of dependencies and run tests
+# For more information see: https://help.github.com/actions/language-and-framework-guides/
+
+name: Lifemacs Loads Successfully
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Set up Emacs
+        uses: purcell/setup-emacs@v3.0
+        with:
+          # The version of Emacs to install, e.g. "24.3", or "snapshot" for a recent development version.
+          version: 27.1 # optional
+
+      - name: Attempting startup...
+        run: time emacs -nw --batch --eval='(let
+                                (
+                                 (user-emacs-directory default-directory))
+                              (message "Default directory" )
+                              (message default-directory)
+                              (setq url-show-status nil)
+                              (package-initialize)
+                              (load-file "init.el")
+                              (message "Startup Successful!"))'
+# Github Actions:1 ends here
