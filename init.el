@@ -19,29 +19,36 @@
 (spaceline-spacemacs-theme)
 (spaceline-helm-mode 1)
 
-;; set linum (line numbering) colors
-(set-face-background 'linum "#222b35")
-(set-face-foreground 'linum "#999999")
-
-;; highlight current line
-(require 'hlinum)
-(hlinum-activate)
-(set-face-foreground 'linum-highlight-face "#ffffff")
-(set-face-background 'linum-highlight-face "#222b35")
-
-;; customise fringe
-(set-face-background 'fringe "#222b35")
-(set-face-foreground 'flycheck-fringe-error "#FF0000")
-(fringe-mode '(14 . 0))
-
 ;; have mode icons instead of names
 ;; (mode-icons-mode)
 
-;; -------------------------------------------- org configuration
+;; -------------------------------------------- org
 
 (require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () 
 			   (org-bullets-mode 1)))
+
+;; change default org-level fontsizes
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-level-1 ((t 
+		 (:inherit outline-1 
+			   :height 2.0)))) 
+ '(org-level-2 ((t 
+		 (:inherit outline-2 
+			   :height 1.5)))) 
+ '(org-level-3 ((t 
+		 (:inherit outline-3 
+			   :height 1.2)))) 
+ '(org-level-4 ((t 
+		 (:inherit outline-4 
+			   :height 1.0)))) 
+ '(org-level-5 ((t 
+		 (:inherit outline-5 
+			   :height 1.0)))))
 
 (setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "PROCESSING" "WAITING" "CANCELED" "DONE")))
 
@@ -62,24 +69,21 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
 			      default))) 
- '(package-selected-packages (quote (lispy elisp-format spacemacs-theme helm-bibtex dumb-jump
-					   tree-mode tree-sitter vscode-dark-plus-theme code-cells
-					   cdlatex lean-mode yasnippet-classic-snippets
-					   yasnippet-snippets hlinum autothemer display-theme hydra
-					   magit eink-theme flycheck-pos-tip zenburn-theme
-					   use-package org-bullets python-cell pyenv-mode
-					   material-theme flycheck exec-path-from-shell elpy ein
-					   color-theme-sanityinc-tomorrow blacken better-defaults
-					   anaconda-mode))) 
+ '(package-selected-packages (quote (org-ref-prettify org-ref ibuffer-vc csv-mode lispy elisp-format
+						      spacemacs-theme helm-bibtex dumb-jump
+						      tree-mode tree-sitter vscode-dark-plus-theme
+						      code-cells cdlatex lean-mode
+						      yasnippet-classic-snippets yasnippet-snippets
+						      hlinum autothemer display-theme hydra magit
+						      eink-theme flycheck-pos-tip zenburn-theme
+						      use-package org-bullets python-cell pyenv-mode
+						      material-theme flycheck exec-path-from-shell
+						      elpy ein color-theme-sanityinc-tomorrow
+						      blacken better-defaults anaconda-mode))) 
  '(safe-local-variable-values (quote ((eval when 
 					    (require (quote rainbow-mode) nil t) 
 					    (rainbow-mode 1))))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
 
 ;; spell checking
 (setq ispell-program-name (executable-find "hunspell") ispell-dictionary "en_US")
@@ -108,7 +112,7 @@
 (add-hook 'org-mode-hook (lambda () 
 			   (local-set-key (kbd "S-<down>")  'windmove-down)))
 
-;; -------------------------------------------- Latex configuration
+;; -------------------------------------------- tex
 
 (require 'tex-site)
 ;; flychecks needs ispell, aspell, hunspell
@@ -154,8 +158,8 @@
 (show-paren-mode 1)
 
 ;;;  format elisp code
-(add-hook 'emacs-lisp-mode-hook (lambda () 
-				  (add-hook 'after-save-hook 'elisp-format-buffer)))
+;; (add-hook 'emacs-lisp-mode-hook (lambda ()
+;; 				  (add-hook 'after-save-hook 'elisp-format-buffer)))
 
 ;; always reload files if they changed on disk
 (setq global-auto-revert-mode t)
@@ -189,13 +193,13 @@
 		  (next-line 10)))
 
 ;; move to the middle of the current line
-(defun my-move-to-middle () 
+(defun my/move-to-middle () 
   (interactive) 
   (let* ((begin (line-beginning-position)) 
 	 (end (line-end-position)) 
 	 (middle (/ (+ end begin) 2))) 
     (goto-char middle)))
-(global-set-key (kbd "M-s") 'my-move-to-middle)
+(global-set-key (kbd "M-s") 'my/move-to-middle)
 
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
@@ -204,6 +208,7 @@
 (windmove-default-keybindings)
 
 ;; auto bullet mode
+(require 'org-bullets)
 (add-hook 'org-mode-hook (lambda () 
 			   (org-bullets-mode 1)))
 
@@ -218,6 +223,36 @@
 ;; let spaceline take car of matches
 (setq anzu-cons-mode-line-p nil)
 
+;; activate csv-mode for csv files
+(add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode))
+
+;; facilite move to beginning/end of buffer
+(global-set-key (kbd "C-,") 'beginning-of-buffer)
+(global-set-key (kbd "C-.") 'end-of-buffer)
+
+;; give a DOI, get a bibtex entry (complementary to org-ref)
+(defun get-bibtex-from-doi (doi) 
+  "Get a BibTeX entry from the DOI" 
+  (interactive "MDOI: ") 
+  (let ((url-mime-accept-string "text/bibliography;style=bibtex")) 
+    (with-current-buffer (url-retrieve-synchronously (format "http://dx.doi.org/%s"
+							     (replace-regexp-in-string
+							      "http://dx.doi.org/" "" doi))) 
+      (switch-to-buffer (current-buffer)) 
+      (goto-char (point-max)) 
+      (setq bibtex-entry 
+	    (buffer-substring 
+	     (string-match "@" (buffer-string)) 
+	     (point))) 
+      (kill-buffer (current-buffer)))) 
+  (insert (decode-coding-string bibtex-entry 'utf-8)) 
+  (bibtex-fill-entry))
+
+(global-set-key (kbd "C-c b") 'get-bibtex-from-doi)
+
+;; run a shell command quickly
+(global-set-key (kbd "C-c s") 'shell-command)
+
 ;; -------------------------------------------- git push
 
 ;; easy git add commit and push
@@ -231,7 +266,8 @@
 ;; -------------------------------------------- MOOSE
 
 ;; syntax highlighting for MOOSE input and test files
-(add-to-list 'load-path "/home/adrien/.emacs.d/custom-modes/emacs-moose-mode")
+;; https://github.com/dylanjm/emacs-moose-mode
+(add-to-list 'load-path "~/.emacs.d/custom-modes/emacs-moose-mode")
 (require 'moose-mode)
 
 ;; -------------------------------------------- modify buffers
@@ -283,17 +319,19 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; Use Ibuffer for Buffer List
 
-(setq ibuffer-saved-filter-groups '(("default" ("emacs-config" (or (filename . ".emacs.d") 
-								   (filename . ".emacs") 
-								   (filename . "emacs-config"))) 
+(setq ibuffer-saved-filter-groups '(("default" ("elisp" (mode . emacs-lisp-mode)) 
 				     ("org" (or (mode . org-mode) 
 						(filename . "OrgMode"))) 
-				     ("python-dev" (or (mode . python-mode))) 
-				     ("c-dev" (or (mode . c-mode) 
-						  (mode . c++-mode))) 
+				     ("python" (or (mode . python-mode))) 
+				     ("C++" (or (mode . c-mode) 
+						(mode . c++-mode))) 
 				     ("folders" (mode . dired-mode)) 
-				     ("LaTeX" (mode . latex-mode)) 
-				     ("MOOSE" (filename . ".i")))))
+				     ("tex" (mode . latex-mode)) 
+				     ("bash" (mode . sh-mode)) 
+				     ("magit" (or (mode . magit-status-mode) 
+						  (mode . magit-diff-mode) 
+						  (mode . magit-revision-mode))) 
+				     ("MOOSE" (mode . moose-mode)))))
 
 (setq ibuffer-expert t)
 (setq ibuffer-show-empty-filter-groups nil)
@@ -304,7 +342,7 @@
 (add-hook 'ibuffer-mode-hook (lambda () 
 			       (ibuffer-auto-mode 1)))
 
-;; -------------------------------------------- python dev
+;; -------------------------------------------- python
 
 ;; myPackages contains a list of package names
 (defvar myPackages 
@@ -371,7 +409,37 @@
 			    (highlight-indentation-mode -1)))
 
 ;; prevent very long ipython buffers
-(add-hook 'comint-output-filter-functions 'comint-truncate-buffer)
+(add-hook 'inferior-python-mode-hook #'my-inferior-python-mode-hook)
+
+(defun my-inferior-python-mode-hook () 
+  "Custom `inferior-python-mode' behaviours."
+  (setq-local comint-buffer-maximum-size 2000) ;; maximum lines
+  (add-hook 'comint-output-filter-functions 'comint-truncate-buffer nil 
+	    :local))
+
+;; handy keybinding for matching history
+(add-hook 'inferior-python-mode-hook (lambda () 
+				       (local-set-key (kbd "C-c <C-up>")
+						      'comint-previous-matching-input-from-input)))
+(add-hook 'inferior-python-mode-hook (lambda () 
+				       (local-set-key (kbd "C-c <C-down>")
+						      'comint-next-matching-input-from-input)))
+
+;; set linum (line numbering) colors
+(set-face-background 'linum "#222b35")
+(set-face-foreground 'linum "#999999")
+
+;; highlight current line
+(require 'hlinum)
+(hlinum-activate)
+(set-face-foreground 'linum-highlight-face "#ffffff")
+(set-face-background 'linum-highlight-face "#222b35")
+
+;; customise fringe
+(set-face-background 'fringe "#222b35")
+(set-face-foreground 'flycheck-fringe-error "#FF0000")
+(fringe-mode '(14 . 0))
 
 (provide '.emacs)
+
 ;;;.emacs ends here
