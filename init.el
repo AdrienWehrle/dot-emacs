@@ -34,8 +34,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.0)))))
+ '(org-level-1 ((t 
+		 (:inherit outline-1 
+			   :height 1.5)))) 
+ '(org-level-2 ((t 
+		 (:inherit outline-2 
+			   :height 1.0)))))
 
 (setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "PROCESSING" "WAITING" "CANCELED" "DONE")))
 
@@ -54,20 +58,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(csv-separators (quote ("," "	" ";")))
- '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(package-selected-packages
-   (quote
-    (json-mode yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc csv-mode lispy elisp-format spacemacs-theme helm-bibtex dumb-jump tree-mode tree-sitter vscode-dark-plus-theme code-cells cdlatex lean-mode yasnippet-classic-snippets yasnippet-snippets hlinum autothemer display-theme hydra magit eink-theme flycheck-pos-tip zenburn-theme use-package org-bullets python-cell pyenv-mode material-theme flycheck exec-path-from-shell elpy ein color-theme-sanityinc-tomorrow blacken better-defaults anaconda-mode)))
- '(safe-local-variable-values
-   (quote
-    ((eval when
-	   (require
-	    (quote rainbow-mode)
-	    nil t)
-	   (rainbow-mode 1))))))
+ '(csv-separators (quote ("," "	" ";"))) 
+ '(custom-safe-themes (quote ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
+			      default))) 
+ '(package-selected-packages (quote (json-mode yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc
+					       csv-mode lispy elisp-format spacemacs-theme
+					       helm-bibtex dumb-jump tree-mode tree-sitter
+					       vscode-dark-plus-theme code-cells cdlatex lean-mode
+					       yasnippet-classic-snippets yasnippet-snippets hlinum
+					       autothemer display-theme hydra magit eink-theme
+					       flycheck-pos-tip zenburn-theme use-package
+					       org-bullets python-cell pyenv-mode material-theme
+					       flycheck exec-path-from-shell elpy ein
+					       color-theme-sanityinc-tomorrow blacken
+					       better-defaults anaconda-mode))) 
+ '(safe-local-variable-values (quote ((eval when 
+					    (require (quote rainbow-mode) nil t) 
+					    (rainbow-mode 1))))))
 
 
 ;; spell checking
@@ -97,8 +104,8 @@
 
 ;; -------------------------------------------- yaml
 
-(require 'yaml-mode)
-    (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(require 'yaml-mode) 
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 ;; -------------------------------------------- json
 
@@ -143,14 +150,13 @@
 (add-hook 'flyspell-mode-hook #'flyspell-buffer)
 
 ;; correct word
-(eval-after-load 'latex 
-  '(define-key LaTeX-mode-map (kbd "C-c c")  #'flyspell-correct-word-before-point))
+(eval-after-load 'latex '(define-key LaTeX-mode-map (kbd "C-c c")
+			   #'flyspell-correct-word-before-point))
 
 ;; get synonyms from Thesaurus.com (get-synonyms)
 (add-to-list 'load-path "~/.emacs.d/custom-modes/thesaurus.el")
 (require 'thesaurus)
-(eval-after-load 'latex 
-  '(define-key LaTeX-mode-map (kbd "C-c t")  #'get-synonyms))
+(eval-after-load 'latex '(define-key LaTeX-mode-map (kbd "C-c t")  #'get-synonyms))
 
 ;; -------------------------------------------- useful settings
 
@@ -333,7 +339,7 @@
 						(mode . c++-mode))) 
 				     ("folders" (mode . dired-mode)) 
 				     ("tex" (mode . latex-mode)) 
-				     ("bash" (mode . sh-mode))
+				     ("bash" (mode . sh-mode)) 
 				     ("yml" (mode . yaml-mode)) 
 				     ("magit" (or (mode . magit-status-mode) 
 						  (mode . magit-diff-mode) 
