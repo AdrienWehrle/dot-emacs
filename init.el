@@ -158,7 +158,26 @@
 (require 'thesaurus)
 (eval-after-load 'latex '(define-key LaTeX-mode-map (kbd "C-c t")  #'get-synonyms))
 
-;; -------------------------------------------- useful settings
+;; -------------------------------------------- useful global settings
+
+;; restore the last saved desktop on startup
+(desktop-save-mode 1)
+
+;; remember recent files
+(recentf-mode 1)
+(setq recentf-max-menu-items 30)
+(setq recentf-max-saved-items 30)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+;; Save minibuffer prompts (M-n and M-p to access them)
+(setq history-length 50)
+(savehist-mode 1)
+
+;; Remember and restore the last cursor location of opened files
+(save-place-mode 1)
+
+;; Revert Dired and other buffers
+(setq global-auto-revert-non-file-buffers t)
 
 ;; hide menu-bar and tool-bar forever
 (menu-bar-mode -1)
@@ -259,12 +278,11 @@
   (bibtex-fill-entry))
 (global-set-key (kbd "C-c b") 'get-bibtex-from-doi)
 
-;; custom arguments for org-ref
 (use-package 
   org-ref 
-  :custom (reftex-default-bibliography '("~/org/references.bib")) 
+  :custom (reftex-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
   (org-ref-bibliography-notes "~/org/notes.org") 
-  (org-ref-default-bibliography '("~/org/references.bib")) 
+  (org-ref-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
   (org-ref-pdf-directory "~/org/books") ;; keep the final slash off
   )
 
@@ -354,6 +372,8 @@
 
 ;; -------------------------------------------- ibuffer
 
+(require 'ibuffer)
+
 (global-set-key (kbd "C-x C-b") 'ibuffer) ;; Use Ibuffer for Buffer List
 
 (setq ibuffer-saved-filter-groups '(("default" ("elisp" (mode . emacs-lisp-mode)) 
@@ -375,6 +395,7 @@
 
 (setq ibuffer-expert t)
 (setq ibuffer-show-empty-filter-groups nil)
+
 (add-hook 'ibuffer-mode-hook '(lambda () 
 				(ibuffer-switch-to-saved-filter-groups "default")))
 
