@@ -61,17 +61,17 @@
  '(csv-separators (quote ("," "	" ";"))) 
  '(custom-safe-themes (quote ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
 			      default))) 
- '(package-selected-packages (quote (json-mode yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc
-					       csv-mode lispy elisp-format spacemacs-theme
-					       helm-bibtex dumb-jump tree-mode tree-sitter
-					       vscode-dark-plus-theme code-cells cdlatex lean-mode
-					       yasnippet-classic-snippets yasnippet-snippets hlinum
-					       autothemer display-theme hydra magit eink-theme
-					       flycheck-pos-tip zenburn-theme use-package
-					       org-bullets python-cell pyenv-mode material-theme
-					       flycheck exec-path-from-shell elpy ein
-					       color-theme-sanityinc-tomorrow blacken
-					       better-defaults anaconda-mode))) 
+ '(package-selected-packages (quote (eglot julia-repl julia-mode markdown-mode vc-msg json-mode
+					   yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc
+					   csv-mode lispy elisp-format spacemacs-theme helm-bibtex
+					   dumb-jump tree-mode tree-sitter vscode-dark-plus-theme
+					   code-cells cdlatex lean-mode yasnippet-classic-snippets
+					   yasnippet-snippets hlinum autothemer display-theme hydra
+					   magit eink-theme flycheck-pos-tip zenburn-theme
+					   use-package org-bullets python-cell pyenv-mode
+					   material-theme flycheck exec-path-from-shell elpy ein
+					   color-theme-sanityinc-tomorrow blacken better-defaults
+					   anaconda-mode))) 
  '(safe-local-variable-values (quote ((eval when 
 					    (require (quote rainbow-mode) nil t) 
 					    (rainbow-mode 1))))))
@@ -259,11 +259,36 @@
   (bibtex-fill-entry))
 (global-set-key (kbd "C-c b") 'get-bibtex-from-doi)
 
+;; custom arguments for org-ref
+(use-package 
+  org-ref 
+  :custom (reftex-default-bibliography '("~/org/references.bib")) 
+  (org-ref-bibliography-notes "~/org/notes.org") 
+  (org-ref-default-bibliography '("~/org/references.bib")) 
+  (org-ref-pdf-directory "~/org/books") ;; keep the final slash off
+  )
+
 ;; write bibtex entry in bib from DOI
 (global-set-key (kbd "C-c u") 'org-ref-url-html-to-bibtex)
 
 ;; run a shell command quickly
 (global-set-key (kbd "C-c s") 'shell-command)
+
+;; git blame
+(defun vc-msg-hook-setup (vcs-type commit-info)
+  ;; copy commit id to clipboard
+  (message (format "%s\n%s\n%s\n%s" (plist-get commit-info 
+					       :id) 
+		   (plist-get commit-info 
+			      :author) 
+		   (plist-get commit-info 
+			      :author-time) 
+		   (plist-get commit-info 
+			      :author-summary))))
+(add-hook 'vc-msg-hook 'vc-msg-hook-setup)
+
+;; show file VC historic
+(global-set-key (kbd "C-x c") 'magit-log-buffer-file)
 
 ;; -------------------------------------------- git push
 
@@ -339,6 +364,8 @@
 						(mode . c++-mode))) 
 				     ("folders" (mode . dired-mode)) 
 				     ("tex" (mode . latex-mode)) 
+				     ("csv" (mode . csv-mode)) 
+				     ("txt" (mode . text-mode)) 
 				     ("bash" (mode . sh-mode)) 
 				     ("yml" (mode . yaml-mode)) 
 				     ("magit" (or (mode . magit-status-mode) 
@@ -354,6 +381,136 @@
 ;; automatically refresh ibuffer
 (add-hook 'ibuffer-mode-hook (lambda () 
 			       (ibuffer-auto-mode 1)))
+
+;; human readable size column
+(defun ajv/human-readable-file-sizes-to-bytes (string) 
+  "Convert a human-readable file size into bytes." 
+  (interactive) 
+  (cond ((string-suffix-p "G" string t) 
+	 (* 1000000000 (string-to-number (substring string 0 (- (length string) 1))))) 
+	((string-suffix-p "M" string t) 
+	 (* 1000000 (string-to-number (substring string 0 (- (length string) 1))))) 
+	((string-suffix-p "K" string t) 
+	 (* 1000 (string-to-number (substring string 0 (- (length string) 1))))) 
+	(t (string-to-number (substring string 0 (- (length string) 1))))))
+
+(defun ajv/bytes-to-human-readable-file-sizes (bytes) 
+  "Convert number of bytes to human-readable file size." 
+  (interactive) 
+  (cond ((> bytes 1000000000) 
+	 (format "%10.1fG" (/ bytes 1000000000.0))) 
+	((> bytes 100000000) 
+	 (format "%10.0fM" (/ bytes 1000000.0))) 
+	((> bytes 1000000) 
+	 (format "%10.1fM" (/ bytes 1000000.0))) 
+	((> bytes 100000) 
+	 (format "%10.0fk" (/ bytes 1000.0))) 
+	((> bytes 1000) 
+	 (format "%10.1fk" (/ bytes 1000.0))) 
+	(t (format "%10d" bytes))))
+
+;; Use human readable Size column instead of original one
+(define-ibuffer-column size-h 
+  (:name "Size" 
+	 :inline t 
+	 :summarizer (lambda (column-strings) 
+		       (let ((total 0)) 
+			 (dolist (string column-strings) 
+			   (setq total
+				 ;; like, ewww ...
+				 (+ (float (ajv/human-readable-file-sizes-to-bytes string)) total))) 
+			 (ajv/bytes-to-human-readable-file-sizes total))) ;; :summarizer nil
+	 ) 
+  (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
+
+;; Modify the default ibuffer-formats
+(setq ibuffer-formats '((mark modified read-only locked " " (name 20 20 
+
+								  :left 
+								  :elide) " " (size-h 11 -1 
+										      :right) " "
+										      (mode 16 16 
+
+											    :left 
+											    :elide)
+										      " "
+										      filename-and-process) 
+			(mark " " (name 16 -1) " " filename)))
+
+(defun ibuffer-advance-motion (direction) 
+  (forward-line direction) 
+  (beginning-of-line) 
+  (if (not (get-text-property (point) 'ibuffer-filter-group-name)) t (ibuffer-skip-properties
+								      '(ibuffer-filter-group-name)
+								      direction) nil))
+
+;; Improve line movement in ibuffer
+(defun ibuffer-previous-line 
+    (&optional 
+     arg)
+  "Move backwards ARG lines, wrapping around the list if necessary." 
+  (interactive "P") 
+  (or arg 
+      (setq arg 1)) 
+  (let (err1 err2) 
+    (while (> arg 0) 
+      (cl-decf arg) 
+      (setq err1 (ibuffer-advance-motion -1) err2 (if (not (get-text-property (point)
+									      'ibuffer-title)) t
+						    (goto-char (point-max)) 
+						    (beginning-of-line) 
+						    (ibuffer-skip-properties '(ibuffer-summary
+									       ibuffer-filter-group-name)
+									     -1) nil))) 
+    (and err1 
+	 err2)))
+
+(defun ibuffer-next-line 
+    (&optional 
+     arg)
+  "Move forward ARG lines, wrapping around the list if necessary." 
+  (interactive "P") 
+  (or arg 
+      (setq arg 1)) 
+  (let (err1 err2) 
+    (while (> arg 0) 
+      (cl-decf arg) 
+      (setq err1 (ibuffer-advance-motion 1) err2 (if (not (get-text-property (point)
+									     'ibuffer-summary)) t
+						   (goto-char (point-min)) 
+						   (beginning-of-line) 
+						   (ibuffer-skip-properties '(ibuffer-summary
+									      ibuffer-filter-group-name
+									      ibuffer-title) 1)
+						   nil))) 
+    (and err1 
+	 err2)))
+
+;; Improve header movement in ibuffer
+(defun ibuffer-next-header () 
+  (interactive) 
+  (while (ibuffer-next-line)))
+
+(defun ibuffer-previous-header () 
+  (interactive) 
+  (while (ibuffer-previous-line)))
+
+(define-key ibuffer-mode-map (kbd "<up>") 'ibuffer-previous-line)
+(define-key ibuffer-mode-map (kbd "<down>") 'ibuffer-next-line)
+(define-key ibuffer-mode-map (kbd "<right>") 'ibuffer-next-header)
+(define-key ibuffer-mode-map (kbd "<left>") 'ibuffer-previous-header)
+
+;; -------------------------------------------- julia
+
+(require 'julia-mode)
+(require 'julia-repl)
+(add-hook 'julia-mode-hook 'julia-repl-mode)
+(add-hook 'julia-mode-hook 'eglot-jl-init)
+(add-hook 'julia-mode-hook 'eglot-ensure)
+
+(add-hook 'julia-mode-hook '(lambda () 
+			      (local-set-key (kbd "C-d") 'julia-repl-send-line) 
+			      (local-set-key (kbd "C-c C-c") 'julia-repl-send-buffer)))
 
 ;; -------------------------------------------- python
 
