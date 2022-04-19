@@ -280,9 +280,9 @@
 
 (use-package 
   org-ref 
-  :custom (reftex-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
+  :custom (reftex-default-bibliography '("~/org/references.bib")) 
   (org-ref-bibliography-notes "~/org/notes.org") 
-  (org-ref-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
+  (org-ref-default-bibliography '("~/org/references.bib")) 
   (org-ref-pdf-directory "~/org/books") ;; keep the final slash off
   )
 
