@@ -61,17 +61,18 @@
  '(csv-separators (quote ("," "	" ";"))) 
  '(custom-safe-themes (quote ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
 			      default))) 
- '(package-selected-packages (quote (eglot julia-repl julia-mode markdown-mode vc-msg json-mode
-					   yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc
-					   csv-mode lispy elisp-format spacemacs-theme helm-bibtex
-					   dumb-jump tree-mode tree-sitter vscode-dark-plus-theme
-					   code-cells cdlatex lean-mode yasnippet-classic-snippets
-					   yasnippet-snippets hlinum autothemer display-theme hydra
-					   magit eink-theme flycheck-pos-tip zenburn-theme
-					   use-package org-bullets python-cell pyenv-mode
-					   material-theme flycheck exec-path-from-shell elpy ein
-					   color-theme-sanityinc-tomorrow blacken better-defaults
-					   anaconda-mode))) 
+ '(package-selected-packages (quote (loccur org-cliplink eglot julia-repl julia-mode markdown-mode
+					    vc-msg json-mode yaml-mode helm-ag org-ref-prettify
+					    org-ref ibuffer-vc csv-mode lispy elisp-format
+					    spacemacs-theme helm-bibtex dumb-jump tree-mode
+					    tree-sitter vscode-dark-plus-theme code-cells cdlatex
+					    lean-mode yasnippet-classic-snippets yasnippet-snippets
+					    hlinum autothemer display-theme hydra magit eink-theme
+					    flycheck-pos-tip zenburn-theme use-package org-bullets
+					    python-cell pyenv-mode material-theme flycheck
+					    exec-path-from-shell elpy ein
+					    color-theme-sanityinc-tomorrow blacken better-defaults
+					    anaconda-mode))) 
  '(safe-local-variable-values (quote ((eval when 
 					    (require (quote rainbow-mode) nil t) 
 					    (rainbow-mode 1))))))
@@ -83,6 +84,15 @@
   flyspell-correct-ivy 
   :ensure t 
   :demand t)
+
+;; enable flyspell
+(add-hook 'org-mode-hook #'turn-on-flyspell)
+
+;; correct word
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c c") #'flyspell-correct-word-before-point))
+
+;; insert org-mode link with title of page found in URL
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c C-i") 'org-cliplink))
 
 ;; resolve Windmove conflicts (like org state looping)
 (add-hook 'org-mode-hook (lambda () 
@@ -104,7 +114,7 @@
 
 ;; -------------------------------------------- yaml
 
-(require 'yaml-mode) 
+(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 ;; -------------------------------------------- json
@@ -202,9 +212,6 @@
 ;; simple window traveling
 (windmove-default-keybindings)
 
-(setq max-lisp-eval-depth '40000)
-(setq max-specpdl-size '100000)
-
 ;; Default mode for unknown files
 (setq default-major-mode 'text-mode)
 
@@ -232,6 +239,24 @@
 
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
+
+;; revert but keep undo history
+(defun revert-buffer-keep-undo 
+    (&rest 
+     -)
+  "Revert buffer but keep undo history." 
+  (interactive) 
+  (let ((inhibit-read-only t)) 
+    (erase-buffer) 
+    (insert-file-contents (buffer-file-name)) 
+    (set-visited-file-modtime (visited-file-modtime)) 
+    (set-buffer-modified-p nil)))
+(setq revert-buffer-function 'revert-buffer-keep-undo)
+
+;; some upper limits on sizes
+(setq max-lisp-eval-depth '40000)
+(setq max-specpdl-size '100000)
+(setq undo-limit 40000 undo-outer-limit 8000000 undo-strong-limit 100000)
 
 ;; simple window switch
 (windmove-default-keybindings)
@@ -280,9 +305,9 @@
 
 (use-package 
   org-ref 
-  :custom (reftex-default-bibliography '("~/org/references.bib")) 
+  :custom (reftex-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
   (org-ref-bibliography-notes "~/org/notes.org") 
-  (org-ref-default-bibliography '("~/org/references.bib")) 
+  (org-ref-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
   (org-ref-pdf-directory "~/org/books") ;; keep the final slash off
   )
 
@@ -291,6 +316,9 @@
 
 ;; run a shell command quickly
 (global-set-key (kbd "C-c s") 'shell-command)
+
+;; facilitate string replacement
+(global-set-key (kbd "C-x r") 'replace-string)
 
 ;; git blame
 (defun vc-msg-hook-setup (vcs-type commit-info)
@@ -307,6 +335,31 @@
 
 ;; show file VC historic
 (global-set-key (kbd "C-x c") 'magit-log-buffer-file)
+
+;; list pattern occurences in current buffer and go
+(use-package 
+  loccur 
+  :bind ((("C-q" .  loccur-current))))
+
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+;; use helm mainly for pattern search
+(add-to-list 'load-path "~/.emacs.d/helm")
+(require 'helm-config)
+
+;; find file or buffer matching pattern and open
+(setq helm-locate-command "mlocate %s -wAe --regex %s")
+(setq helm-find-files-sort-directories t)
+(setq helm-semantic-fuzzy-match t)
+(setq helm-completion-in-region-fuzzy-match t)
+(global-set-key (kbd "M-X")  'helm-for-files)
+
+;; show kill ring history
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+;; use helm mainly for pattern search
+(add-to-list 'load-path "~/.emacs.d/color-moccur.el")
+(require 'color-moccur)
 
 ;; -------------------------------------------- git push
 
@@ -445,13 +498,11 @@
   (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
 
 ;; Modify the default ibuffer-formats
-(setq ibuffer-formats '((mark modified read-only locked " " (name 20 20 
-
+(setq ibuffer-formats '((mark modified read-only locked " " (name 20 20
 								  :left 
 								  :elide) " " (size-h 11 -1 
 										      :right) " "
-										      (mode 16 16 
-
+										      (mode 16 16
 											    :left 
 											    :elide)
 										      " "
