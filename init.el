@@ -94,6 +94,9 @@
 ;; insert org-mode link with title of page found in URL
 (eval-after-load 'org '(define-key org-mode-map (kbd "C-c C-i") 'org-cliplink))
 
+;; move to org header
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c i") 'imenu))
+
 ;; resolve Windmove conflicts (like org state looping)
 (add-hook 'org-mode-hook (lambda () 
 			   (local-set-key (kbd "C-<right>")  'org-shiftright)))
@@ -308,7 +311,7 @@
   :custom (reftex-default-bibliography '("~/org/references.bib")) 
   (org-ref-bibliography-notes "~/org/notes.org") 
   (org-ref-default-bibliography '("~/org/references.bib")) 
-  (org-ref-pdf-directory "~/org/books") 
+  (org-ref-pdf-directory "~/org/books") ;; keep the final slash off
   )
 
 ;; write bibtex entry in bib from DOI
@@ -339,7 +342,7 @@
 ;; list pattern occurences in current buffer and go
 (use-package 
   loccur 
-  :bind ((("C-q" .  loccur-current))))
+  :bind ((("C-o" .  loccur-isearch))))
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
@@ -352,7 +355,8 @@
 (setq helm-find-files-sort-directories t)
 (setq helm-semantic-fuzzy-match t)
 (setq helm-completion-in-region-fuzzy-match t)
-(global-set-key (kbd "M-X")  'helm-for-files)
+(global-set-key (kbd "M-X")  'helm-M-x)
+(global-set-key (kbd "C-x C-d")  'helm-for-files)
 
 ;; show kill ring history
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -666,6 +670,21 @@
 (add-hook 'inferior-python-mode-hook (lambda () 
 				       (local-set-key (kbd "C-c <C-down>")
 						      'comint-next-matching-input-from-input)))
+
+;; detect jupyter notebook cells with code-cell
+(add-to-list 'load-path "~/.emacs.d/code-cells.el")
+(require 'code-cells)
+
+;; mark and run cell
+(defun run-pycell () 
+  (interactive) 
+  (code-cells-mark-cell) 
+  (elpy-shell-send-region-or-buffer) 
+  (code-cells-forward-cell) 
+  (keyboard-quit))
+
+(add-hook 'elpy-mode-hook (lambda () 
+			    (local-set-key (kbd "C-c <C-return>") 'run-pycell)))
 
 ;; set linum (line numbering) colors
 (set-face-background 'linum "#222b35")
