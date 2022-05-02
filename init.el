@@ -34,8 +34,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.0)))))
+ '(org-level-1 ((t 
+		 (:inherit outline-1 
+			   :height 1.5)))) 
+ '(org-level-2 ((t 
+		 (:inherit outline-2 
+			   :height 1.0)))))
 
 (setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "PROCESSING" "WAITING" "CANCELED" "DONE")))
 
@@ -54,20 +58,24 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(csv-separators (quote ("," "	" ";")))
- '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(package-selected-packages
-   (quote
-    (loccur org-cliplink eglot julia-repl julia-mode markdown-mode vc-msg json-mode yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc csv-mode lispy elisp-format spacemacs-theme helm-bibtex dumb-jump tree-mode tree-sitter vscode-dark-plus-theme code-cells cdlatex lean-mode yasnippet-classic-snippets yasnippet-snippets hlinum autothemer display-theme hydra magit eink-theme flycheck-pos-tip zenburn-theme use-package org-bullets python-cell pyenv-mode material-theme flycheck exec-path-from-shell elpy ein color-theme-sanityinc-tomorrow blacken better-defaults anaconda-mode)))
- '(safe-local-variable-values
-   (quote
-    ((eval when
-	   (require
-	    (quote rainbow-mode)
-	    nil t)
-	   (rainbow-mode 1))))))
+ '(csv-separators (quote ("," "	" ";"))) 
+ '(custom-safe-themes (quote ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
+			      default))) 
+ '(package-selected-packages (quote (loccur org-cliplink eglot julia-repl julia-mode markdown-mode
+					    vc-msg json-mode yaml-mode helm-ag org-ref-prettify
+					    org-ref ibuffer-vc csv-mode lispy elisp-format
+					    spacemacs-theme helm-bibtex dumb-jump tree-mode
+					    tree-sitter vscode-dark-plus-theme code-cells cdlatex
+					    lean-mode yasnippet-classic-snippets yasnippet-snippets
+					    hlinum autothemer display-theme hydra magit eink-theme
+					    flycheck-pos-tip zenburn-theme use-package org-bullets
+					    python-cell pyenv-mode material-theme flycheck
+					    exec-path-from-shell elpy ein
+					    color-theme-sanityinc-tomorrow blacken better-defaults
+					    anaconda-mode))) 
+ '(safe-local-variable-values (quote ((eval when 
+					    (require (quote rainbow-mode) nil t) 
+					    (rainbow-mode 1))))))
 
 
 ;; spell checking
@@ -81,16 +89,13 @@
 (add-hook 'org-mode-hook #'turn-on-flyspell)
 
 ;; correct word
-(eval-after-load 'org '(define-key org-mode-map (kbd "C-c c")
-			 #'flyspell-correct-word-before-point))
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c c") #'flyspell-correct-word-before-point))
 
 ;; insert org-mode link with title of page found in URL
-(eval-after-load 'org '(define-key org-mode-map (kbd "C-c C-i")
-			 'org-cliplink))
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c C-i") 'org-cliplink))
 
 ;; move to org header
-(eval-after-load 'org '(define-key org-mode-map (kbd "C-c i")
-			 'imenu))
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c i") 'imenu))
 
 ;; resolve Windmove conflicts (like org state looping)
 (add-hook 'org-mode-hook (lambda () 
@@ -112,7 +117,7 @@
 
 ;; -------------------------------------------- yaml
 
-(require 'yaml-mode) 
+(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 ;; -------------------------------------------- json
@@ -239,22 +244,22 @@
 (global-auto-revert-mode 1)
 
 ;; revert but keep undo history
-(defun revert-buffer-keep-undo (&rest -)
-  "Revert buffer but keep undo history."
-  (interactive)
-  (let ((inhibit-read-only t))
-    (erase-buffer)
-    (insert-file-contents (buffer-file-name))
-    (set-visited-file-modtime (visited-file-modtime))
+(defun revert-buffer-keep-undo 
+    (&rest 
+     -)
+  "Revert buffer but keep undo history." 
+  (interactive) 
+  (let ((inhibit-read-only t)) 
+    (erase-buffer) 
+    (insert-file-contents (buffer-file-name)) 
+    (set-visited-file-modtime (visited-file-modtime)) 
     (set-buffer-modified-p nil)))
 (setq revert-buffer-function 'revert-buffer-keep-undo)
 
 ;; some upper limits on sizes
 (setq max-lisp-eval-depth '40000)
 (setq max-specpdl-size '100000)
-(setq undo-limit 40000
-      undo-outer-limit 8000000
-      undo-strong-limit 100000)
+(setq undo-limit 40000 undo-outer-limit 8000000 undo-strong-limit 100000)
 
 ;; simple window switch
 (windmove-default-keybindings)
@@ -335,10 +340,9 @@
 (global-set-key (kbd "C-x c") 'magit-log-buffer-file)
 
 ;; list pattern occurences in current buffer and go
-(use-package loccur
-  :bind ((
-          ("C-o" .  loccur-isearch)
-          )))
+(use-package 
+  loccur 
+  :bind ((("C-o" .  loccur-isearch))))
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
@@ -498,13 +502,11 @@
   (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
 
 ;; Modify the default ibuffer-formats
-(setq ibuffer-formats '((mark modified read-only locked " " (name 20 20 
-
+(setq ibuffer-formats '((mark modified read-only locked " " (name 20 20
 								  :left 
 								  :elide) " " (size-h 11 -1 
 										      :right) " "
-										      (mode 16 16 
-
+										      (mode 16 16
 											    :left 
 											    :elide)
 										      " "
@@ -676,14 +678,13 @@
 ;; mark and run cell
 (defun run-pycell () 
   (interactive) 
-  (code-cells-mark-cell)
-  (elpy-shell-send-region-or-buffer)
-  (code-cells-forward-cell)
+  (code-cells-mark-cell) 
+  (elpy-shell-send-region-or-buffer) 
+  (code-cells-forward-cell) 
   (keyboard-quit))
 
 (add-hook 'elpy-mode-hook (lambda () 
-			    (local-set-key (kbd "C-c <C-return>")
-					   'run-pycell)))
+			    (local-set-key (kbd "C-c <C-return>") 'run-pycell)))
 
 ;; set linum (line numbering) colors
 (set-face-background 'linum "#222b35")
