@@ -171,7 +171,6 @@
 (require 'thesaurus)
 (eval-after-load 'latex '(define-key LaTeX-mode-map (kbd "C-c t")  #'get-synonyms))
 
-
 ;; -------------------------------------------- useful global settings
 
 ;; restore the last saved desktop on startup
