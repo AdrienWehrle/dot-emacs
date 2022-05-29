@@ -367,13 +367,26 @@
 
 ;; -------------------------------------------- git push
 
+;; make shell-command to pick up .bashrc aliases
+(setq shell-file-name "bash")
+(setq shell-command-switch "-ic")
+
 ;; easy git add commit and push
 (defun push-all (comment) 
-  (interactive "Mmessage:") 
+  (interactive "Mcomment:") 
   (save-some-buffers t)			; save all buffer
   (shell-command (format "git add -A; git commit -a -m \" %s\"; git push &" comment)))
 
 (global-set-key (kbd "C-c g") 'push-all)
+
+;; Scrape own private and public Github repositories
+;; for existing code matching input
+(defun find-gh-code (code) 
+  (interactive "Mcode:") 
+  (shell-command (format "ghcode -ri %s" code)))
+
+(global-set-key (kbd "C-c f") 'find-gh-code)
+
 
 ;; -------------------------------------------- MOOSE
 
@@ -649,6 +662,16 @@
 				  "\"\"\"" \n \n
 				  "@author: Adrien Wehrlé, University of Zurich, Switzerland" \n \n
 				  "\"\"\"" \n \n \n)))
+
+;; automatic tex header
+(auto-insert-mode 1)
+(eval-after-load 'autoinsert '(define-auto-insert '("\\.\\tex\\'" . "latex-header") 
+				'("" "\\documentclass{article}" \n "\\usepackage[utf8]{inputenc}" \n
+				  \n "\\title{template}" \n "\\author{Adrien Wehrlé}" \n
+				  (format-time-string "\\date{%B %Y}") \n \n "\\begin{document}" \n
+				  \n "\\maketitle" \n \n "\\section{Introduction}" \n \n
+				  "\\end{document}")))
+
 
 ;; disable indentation marks
 (add-hook 'elpy-mode-hook (lambda () 
