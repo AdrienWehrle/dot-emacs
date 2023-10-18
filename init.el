@@ -11,6 +11,9 @@
 (when (not package-archive-contents) 
   (package-refresh-contents))
 
+(setq byte-compile-warnings '(cl-functions))
+(require 'cl-lib)
+
 ;; spacemacs dark theme in default emacs
 (load-theme 'spacemacs-dark t)
 
@@ -34,14 +37,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-level-1 ((t 
-		 (:inherit outline-1 
-			   :height 1.5)))) 
- '(org-level-2 ((t 
-		 (:inherit outline-2 
-			   :height 1.0)))))
+ '(org-level-1 ((t (:inherit outline-1 :height 1.2))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.1)))))
 
-(setq org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "PROCESSING" "WAITING" "CANCELED" "DONE")))
+(setq org-todo-keywords '((sequence "TODO(t!)" "IN-PROGRESS(i!)" "PROCESSING(p!)" "WAITING(w!)" "CANCELED(c!)" "DONE(d!)")))
 
 (setq org-todo-keyword-faces '(("IN-PROGRESS" . "orange") 
 			       ("PROCESSING" . "orange") 
@@ -58,30 +57,28 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(csv-separators (quote ("," "	" ";"))) 
- '(custom-safe-themes (quote ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
-			      default))) 
- '(package-selected-packages (quote (loccur org-cliplink eglot julia-repl julia-mode markdown-mode
-					    vc-msg json-mode yaml-mode helm-ag org-ref-prettify
-					    org-ref ibuffer-vc csv-mode lispy elisp-format
-					    spacemacs-theme helm-bibtex dumb-jump tree-mode
-					    tree-sitter vscode-dark-plus-theme code-cells cdlatex
-					    lean-mode yasnippet-classic-snippets yasnippet-snippets
-					    hlinum autothemer display-theme hydra magit eink-theme
-					    flycheck-pos-tip zenburn-theme use-package org-bullets
-					    python-cell pyenv-mode material-theme flycheck
-					    exec-path-from-shell elpy ein
-					    color-theme-sanityinc-tomorrow blacken better-defaults
-					    anaconda-mode))) 
- '(safe-local-variable-values (quote ((eval when 
-					    (require (quote rainbow-mode) nil t) 
-					    (rainbow-mode 1))))))
+ '(csv-separators '("," "	" ";"))
+ '(custom-safe-themes
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+ '(org-agenda-files
+   '("~/COEBELI/COEBELI_ApRES/ApRES_notes.org" "~/COEBELI/COEBELI_EO/TODO.org" "~/COEBELI/COEBELI_GNSS_processing/G_box_testing/roof_test.org" "~/COEBELI/COEBELI_GNSS_processing/gorner/TODO.org" "~/COEBELI/COEBELI_GNSS_processing/misc/IDEAS.org" "~/COEBELI/COEBELI_GNSS_processing/misc/NOTES.org" "~/COEBELI/COEBELI_GNSS_processing/TODO.org" "~/COEBELI/COEBELI_GPRI_processing/misc/IDEAS.org" "~/COEBELI/COEBELI_GPRI_processing/misc/NOTES.org" "~/COEBELI/COEBELI_GPRI_processing/TODO.org" "~/COEBELI/COEBELI_bed_study/TODO.org" "~/COEBELI/COEBELI_collab/meeting_notes/coebeli_meeting_210622.org" "~/COEBELI/COEBELI_collab/coebeli_2022_july.org" "~/COEBELI/COEBELI_collab/coebeli_2022_may.org" "~/COEBELI/COEBELI_collab/coebeli_2022_sept.org" "~/COEBELI/COEBELI_collab/coebeli_collab.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_july_2022/ApRES/ApRES_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_july_2022/TODO.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_july_2022/cyclapse_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/field_checklist_may.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/gucam_2021_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/meeting_120422.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/persocam_2022_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/FIELDWORK_NOTES.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldwork2022.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldwork2022_improvements.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/gps_testing_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/tikee-enlaps.org" "~/COEBELI/COEBELI_modelling/moose_projects/femisd/pac/README.org" "~/COEBELI/COEBELI_modelling/moose_projects/femisd/pbc/README.org" "~/COEBELI/COEBELI_modelling/moose_projects/femisd/TODO.org" "~/COEBELI/COEBELI_modelling/moose_projects/kiliffak/inputs/calving_front/NOTES.org" "~/COEBELI/COEBELI_modelling/moose_projects/kiliffak/TODO.org" "~/COEBELI/COEBELI_modelling/moose_projects/kiliffak/github_discussion.org" "~/COEBELI/COEBELI_modelling/moose_notes.org"))
+ '(package-selected-packages
+   '(diff-hl cl-libify cl-lib sphinx-mode sphinx-doc loccur org-cliplink eglot julia-repl julia-mode markdown-mode vc-msg json-mode yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc csv-mode lispy elisp-format spacemacs-theme helm-bibtex dumb-jump tree-mode tree-sitter vscode-dark-plus-theme code-cells cdlatex lean-mode yasnippet-classic-snippets yasnippet-snippets autothemer display-theme hydra magit eink-theme flycheck-pos-tip zenburn-theme use-package org-bullets python-cell hlinum pyenv-mode material-theme flycheck exec-path-from-shell elpy ein color-theme-sanityinc-tomorrow blacken better-defaults anaconda-mode))
+ '(safe-local-variable-values
+   '((eval when
+	   (require 'rainbow-mode nil t)
+	   (rainbow-mode 1)))))
 
 
 ;; spell checking
-(setq ispell-program-name (executable-find "hunspell") ispell-dictionary "en_US")
+; (setq ispell-program-name (executable-find "hunspell") ispell-dictionary "en_US")
+(setq ispell-program-name "ispell")
+; (setq ispell-local-dictionary "en_GB")
+(setq ispell-local-dictionary-alist
+      '(("en_GB" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
+
 (use-package 
-  flyspell-correct-ivy 
+    flyspell-correct-ivy 
   :ensure t 
   :demand t)
 
@@ -89,21 +86,26 @@
 (add-hook 'org-mode-hook #'turn-on-flyspell)
 
 ;; correct word
-(eval-after-load 'org '(define-key org-mode-map (kbd "C-c c") #'flyspell-correct-word-before-point))
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c c")
+			 #'flyspell-correct-word-before-point))
 
 ;; insert org-mode link with title of page found in URL
-(eval-after-load 'org '(define-key org-mode-map (kbd "C-c C-i") 'org-cliplink))
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c C-i")
+			 'org-cliplink))
 
 ;; move to org header
-(eval-after-load 'org '(define-key org-mode-map (kbd "C-c i") 'imenu))
+(eval-after-load 'org '(define-key org-mode-map (kbd "C-c i")
+			 'imenu))
+
+;; set org-agenda files
+(setq org-agenda-files (directory-files-recursively "~/COEBELI" ".org$"))
+
+;; stop preparing agenda buffers on startup
+(setq org-agenda-inhibit-startup t)
 
 ;; resolve Windmove conflicts (like org state looping)
 (add-hook 'org-mode-hook (lambda () 
-			   (local-set-key (kbd "C-<right>")  'org-shiftright)))
-(add-hook 'org-mode-hook (lambda () 
 			   (local-set-key (kbd "S-<right>")  'windmove-right)))
-(add-hook 'org-mode-hook (lambda () 
-			   (local-set-key (kbd "C-<left>")  'org-shiftleft)))
 (add-hook 'org-mode-hook (lambda () 
 			   (local-set-key (kbd "S-<left>")  'windmove-left)))
 (add-hook 'org-mode-hook (lambda () 
@@ -115,14 +117,20 @@
 (add-hook 'org-mode-hook (lambda () 
 			   (local-set-key (kbd "S-<down>")  'windmove-down)))
 
+;; quickly open a note document in org mode
+(defun open-notes ()
+  (interactive)
+  (let ((daily-name (format-time-string "%y%m%d_%H%M%S")))
+    (find-file (format "~/Notes/Notes_%s.org" daily-name))))
+
 ;; -------------------------------------------- yaml
 
-(require 'yaml-mode)
+(require 'yaml-mode) 
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 ;; -------------------------------------------- json
 
-(require 'yaml-mode)
+(require 'json-mode)
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 ;; (add-hook 'json-mode-hook 'json-mode-beautify)
 
@@ -171,6 +179,7 @@
 (require 'thesaurus)
 (eval-after-load 'latex '(define-key LaTeX-mode-map (kbd "C-c t")  #'get-synonyms))
 
+
 ;; -------------------------------------------- useful global settings
 
 ;; restore the last saved desktop on startup
@@ -199,6 +208,10 @@
 ;; show parentheses
 (show-paren-mode 1)
 
+;; enable icicle
+;; (add-to-list 'load-path "~/.emacs.d/icicles")
+;; (require 'icicles)
+
 ;;;  format elisp code
 ;; (add-hook 'emacs-lisp-mode-hook (lambda ()
 ;; 				  (add-hook 'after-save-hook 'elisp-format-buffer)))
@@ -210,7 +223,7 @@
 (setq scroll-preserve-screen-position t)
 
 ;; start emacs as server
-(server-start)
+;; (server-start)
 
 ;; simple window traveling
 (windmove-default-keybindings)
@@ -244,22 +257,22 @@
 (global-auto-revert-mode 1)
 
 ;; revert but keep undo history
-(defun revert-buffer-keep-undo 
-    (&rest 
-     -)
-  "Revert buffer but keep undo history." 
-  (interactive) 
-  (let ((inhibit-read-only t)) 
-    (erase-buffer) 
-    (insert-file-contents (buffer-file-name)) 
-    (set-visited-file-modtime (visited-file-modtime)) 
+(defun revert-buffer-keep-undo (&rest -)
+  "Revert buffer but keep undo history."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)
+    (insert-file-contents (buffer-file-name))
+    (set-visited-file-modtime (visited-file-modtime))
     (set-buffer-modified-p nil)))
 (setq revert-buffer-function 'revert-buffer-keep-undo)
 
 ;; some upper limits on sizes
 (setq max-lisp-eval-depth '40000)
 (setq max-specpdl-size '100000)
-(setq undo-limit 40000 undo-outer-limit 8000000 undo-strong-limit 100000)
+(setq undo-limit 40000
+      undo-outer-limit 8000000
+      undo-strong-limit 100000)
 
 ;; simple window switch
 (windmove-default-keybindings)
@@ -308,9 +321,9 @@
 
 (use-package 
   org-ref 
-  :custom (reftex-default-bibliography '("~/org/references.bib")) 
+  :custom (reftex-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
   (org-ref-bibliography-notes "~/org/notes.org") 
-  (org-ref-default-bibliography '("~/org/references.bib")) 
+  (org-ref-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
   (org-ref-pdf-directory "~/org/books") ;; keep the final slash off
   )
 
@@ -340,9 +353,10 @@
 (global-set-key (kbd "C-x c") 'magit-log-buffer-file)
 
 ;; list pattern occurences in current buffer and go
-(use-package 
-  loccur 
-  :bind ((("C-o" .  loccur-isearch))))
+(use-package loccur
+  :bind ((
+          ("C-o" .  loccur-isearch)
+          )))
 
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
@@ -351,7 +365,7 @@
 (require 'helm-config)
 
 ;; find file or buffer matching pattern and open
-(setq helm-locate-command "mlocate %s -wAe --regex %s")
+(setq helm-locate-command "locate %s -wAe --regex %s")
 (setq helm-find-files-sort-directories t)
 (setq helm-semantic-fuzzy-match t)
 (setq helm-completion-in-region-fuzzy-match t)
@@ -378,6 +392,14 @@
   (shell-command (format "git add -A; git commit -a -m \" %s\"; git push &" comment)))
 
 (global-set-key (kbd "C-c g") 'push-all)
+
+;; easy git add commit and push
+(defun update-gitignore (comment)
+  (interactive "Mcomment:") 
+  (save-some-buffers t)			; save all buffer
+  (shell-command (format "git rm -r --cached .; git add -A; git commit -a -m \" %s\"; git push &" comment)))
+
+(global-set-key (kbd "C-c t") 'update-gitignore)
 
 ;; Scrape own private and public Github repositories
 ;; for existing code matching input
@@ -515,11 +537,13 @@
   (ajv/bytes-to-human-readable-file-sizes (buffer-size)))
 
 ;; Modify the default ibuffer-formats
-(setq ibuffer-formats '((mark modified read-only locked " " (name 20 20
+(setq ibuffer-formats '((mark modified read-only locked " " (name 20 20 
+
 								  :left 
 								  :elide) " " (size-h 11 -1 
 										      :right) " "
-										      (mode 16 16
+										      (mode 16 16 
+
 											    :left 
 											    :elide)
 										      " "
@@ -613,7 +637,8 @@
     ))
 
 (setq inhibit-startup-message t) ;; Hide the startup message
-(global-linum-mode t)		 ;; Enable line numbers globally
+;; (global-linum-mode t)		 ;; Enable line numbers globally
+;; (global-display-line-numbers-mode t)
 
 ;; Enable elpy
 (elpy-enable)
@@ -666,11 +691,11 @@
 ;; automatic tex header
 (auto-insert-mode 1)
 (eval-after-load 'autoinsert '(define-auto-insert '("\\.\\tex\\'" . "latex-header") 
-				'("" "\\documentclass{article}" \n "\\usepackage[utf8]{inputenc}" \n
-				  \n "\\title{template}" \n "\\author{Adrien Wehrlé}" \n
-				  (format-time-string "\\date{%B %Y}") \n \n "\\begin{document}" \n
-				  \n "\\maketitle" \n \n "\\section{Introduction}" \n \n
-				  "\\end{document}")))
+				'("" "\\documentclass{article}" \n "\\usepackage[utf8]{inputenc}" \n \n
+				  "\\title{template}" \n "\\author{Adrien Wehrlé}" \n
+				  (format-time-string "\\date{%B %Y}") \n \n
+				  "\\begin{document}" \n \n "\\maketitle" \n \n
+				  "\\section{Introduction}" \n \n "\\end{document}")))
 
 
 ;; disable indentation marks
@@ -694,6 +719,27 @@
 				       (local-set-key (kbd "C-c <C-down>")
 						      'comint-next-matching-input-from-input)))
 
+;; go to specific indxe
+(eval-after-load 'python '(define-key python-mode-map (kbd "C-c i")
+			 'imenu))
+
+;; rename existing python instance to use a new one at next call
+(defun new-python-instance (inactive_instance_name)
+  (interactive (list (read-string "Rename inactive instance: " "*Python1*")))
+  (switch-to-buffer "*Python*")
+  (rename-buffer inactive_instance_name))
+
+;; activate existing python instance (many steps because
+;; buffer can't rename with an existing name (*Python42* is temporary)
+(defun switch-python-instance (instance_name)
+  (interactive (list (read-string "Activate instance: " "*Python1*")))
+  (switch-to-buffer instance_name)
+  (rename-buffer "*Python42*")
+  (switch-to-buffer "*Python*")
+  (rename-buffer instance_name) 
+  (switch-to-buffer "*Python42*")
+  (rename-buffer "*Python*"))
+		    
 ;; detect jupyter notebook cells with code-cell
 (add-to-list 'load-path "~/.emacs.d/code-cells.el")
 (require 'code-cells)
@@ -701,15 +747,24 @@
 ;; mark and run cell
 (defun run-pycell () 
   (interactive) 
-  (code-cells-mark-cell) 
-  (elpy-shell-send-region-or-buffer) 
-  (code-cells-forward-cell) 
+  (code-cells-mark-cell)
+  (elpy-shell-send-region-or-buffer)
+  (forward-line 1)
+  (code-cells-forward-cell)
   (keyboard-quit))
 
 (add-hook 'elpy-mode-hook (lambda () 
-			    (local-set-key (kbd "C-c <C-return>") 'run-pycell)))
+			    (local-set-key (kbd "C-c <C-return>")
+					   'run-pycell)))
+
+;; insert docstring skeleton for Python functions and methods
+(add-hook 'python-mode-hook (lambda ()
+                                  (require 'sphinx-doc)
+                                  (sphinx-doc-mode t)
+				  ))
 
 ;; set linum (line numbering) colors
+(require 'linum)
 (set-face-background 'linum "#222b35")
 (set-face-foreground 'linum "#999999")
 
@@ -719,7 +774,7 @@
 (set-face-foreground 'linum-highlight-face "#ffffff")
 (set-face-background 'linum-highlight-face "#222b35")
 
-;; customise fringe
+;; ;; customise fringe
 (set-face-background 'fringe "#222b35")
 (set-face-foreground 'flycheck-fringe-error "#FF0000")
 (fringe-mode '(14 . 0))
@@ -727,3 +782,4 @@
 (provide '.emacs)
 
 ;;;.emacs ends here
+
