@@ -755,6 +755,13 @@
 			    (local-set-key (kbd "C-c <C-return>")
 					   'run-pycell)))
 
+;; switch to ipython buffer
+(defun switch-to-ipython-buffer ()
+  (interactive)
+  (switch-to-buffer "*Python*"))
+
+(global-set-key (kbd "C-c p")  #'switch-to-ipython-buffer)
+
 ;; insert docstring skeleton for Python functions and methods
 (add-hook 'python-mode-hook (lambda ()
                                   (require 'sphinx-doc)
