@@ -60,8 +60,6 @@
  '(csv-separators '("," "	" ";"))
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
- '(org-agenda-files
-   '("~/COEBELI/COEBELI_ApRES/ApRES_notes.org" "~/COEBELI/COEBELI_EO/TODO.org" "~/COEBELI/COEBELI_GNSS_processing/G_box_testing/roof_test.org" "~/COEBELI/COEBELI_GNSS_processing/gorner/TODO.org" "~/COEBELI/COEBELI_GNSS_processing/misc/IDEAS.org" "~/COEBELI/COEBELI_GNSS_processing/misc/NOTES.org" "~/COEBELI/COEBELI_GNSS_processing/TODO.org" "~/COEBELI/COEBELI_GPRI_processing/misc/IDEAS.org" "~/COEBELI/COEBELI_GPRI_processing/misc/NOTES.org" "~/COEBELI/COEBELI_GPRI_processing/TODO.org" "~/COEBELI/COEBELI_bed_study/TODO.org" "~/COEBELI/COEBELI_collab/meeting_notes/coebeli_meeting_210622.org" "~/COEBELI/COEBELI_collab/coebeli_2022_july.org" "~/COEBELI/COEBELI_collab/coebeli_2022_may.org" "~/COEBELI/COEBELI_collab/coebeli_2022_sept.org" "~/COEBELI/COEBELI_collab/coebeli_collab.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_july_2022/ApRES/ApRES_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_july_2022/TODO.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_july_2022/cyclapse_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/field_checklist_may.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/gucam_2021_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/meeting_120422.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldcampaign_may_2022/persocam_2022_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/FIELDWORK_NOTES.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldwork2022.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/fieldwork2022_improvements.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/gps_testing_notes.org" "~/COEBELI/COEBELI_fieldwork/fieldwork_2022/tikee-enlaps.org" "~/COEBELI/COEBELI_modelling/moose_projects/femisd/pac/README.org" "~/COEBELI/COEBELI_modelling/moose_projects/femisd/pbc/README.org" "~/COEBELI/COEBELI_modelling/moose_projects/femisd/TODO.org" "~/COEBELI/COEBELI_modelling/moose_projects/kiliffak/inputs/calving_front/NOTES.org" "~/COEBELI/COEBELI_modelling/moose_projects/kiliffak/TODO.org" "~/COEBELI/COEBELI_modelling/moose_projects/kiliffak/github_discussion.org" "~/COEBELI/COEBELI_modelling/moose_notes.org"))
  '(package-selected-packages
    '(diff-hl cl-libify cl-lib sphinx-mode sphinx-doc loccur org-cliplink eglot julia-repl julia-mode markdown-mode vc-msg json-mode yaml-mode helm-ag org-ref-prettify org-ref ibuffer-vc csv-mode lispy elisp-format spacemacs-theme helm-bibtex dumb-jump tree-mode tree-sitter vscode-dark-plus-theme code-cells cdlatex lean-mode yasnippet-classic-snippets yasnippet-snippets autothemer display-theme hydra magit eink-theme flycheck-pos-tip zenburn-theme use-package org-bullets python-cell hlinum pyenv-mode material-theme flycheck exec-path-from-shell elpy ein color-theme-sanityinc-tomorrow blacken better-defaults anaconda-mode))
  '(safe-local-variable-values
@@ -321,9 +319,9 @@
 
 (use-package 
   org-ref 
-  :custom (reftex-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
+  :custom (reftex-default-bibliography '("~/org/references.bib")) 
   (org-ref-bibliography-notes "~/org/notes.org") 
-  (org-ref-default-bibliography '("~/UZH/make-PhD/TOREAD.bib")) 
+  (org-ref-default-bibliography '("~/org/references.bib")) 
   (org-ref-pdf-directory "~/org/books") ;; keep the final slash off
   )
 
@@ -774,7 +772,7 @@
 (set-face-foreground 'linum-highlight-face "#ffffff")
 (set-face-background 'linum-highlight-face "#222b35")
 
-;; ;; customise fringe
+;; customise fringe
 (set-face-background 'fringe "#222b35")
 (set-face-foreground 'flycheck-fringe-error "#FF0000")
 (fringe-mode '(14 . 0))
