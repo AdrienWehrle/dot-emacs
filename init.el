@@ -784,6 +784,11 @@
 (set-face-foreground 'flycheck-fringe-error "#FF0000")
 (fringe-mode '(14 . 0))
 
+;; -------------------------------------------- tramp
+
+;; Faster than the default scp (for small files)
+(setq tramp-default-method "ssh")
+
 (provide '.emacs)
 
 ;;;.emacs ends here
