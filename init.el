@@ -623,6 +623,25 @@
 			      (local-set-key (kbd "C-d") 'julia-repl-send-line) 
 			      (local-set-key (kbd "C-c C-c") 'julia-repl-send-buffer)))
 
+;; -------------------------------------------- matlab/octave
+
+;; octave mode on matlab files
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
+;; turn on the abbrevs, auto-fill and font-lock features
+(add-hook 'octave-mode-hook
+          (lambda ()
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (if (eq window-system 'x)
+                (font-lock-mode 1))))
+
+;; run line and block
+(add-hook 'octave-mode-hook '(lambda () 
+			      (local-set-key (kbd "<C-return>") 'octave-send-line) 
+			      (local-set-key (kbd "C-c C-c") 'octave-send-region)))
+
 ;; -------------------------------------------- python
 
 ;; myPackages contains a list of package names
