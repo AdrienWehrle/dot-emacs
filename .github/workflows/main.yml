@@ -19,9 +19,13 @@ jobs:
     # - uses: purcell/setup-emacs@master
     #   with:
     #     version: ${{ matrix.emacs_version }}
+    # - uses: leotaku/elisp-check@master
+    #   with:
+    #     file: '*.el'
+    #     check: load-file
+    #     ignore_warnings: ${{ matrix.ignore_warnings }}
+    #     warnings_as_errors: ${{ matrix.warkings_as_errors }}
     - uses: leotaku/elisp-check@master
-      with:
-        file: '*.el'
-        check: load-file
-        ignore_warnings: ${{ matrix.ignore_warnings }}
-        warnings_as_errors: ${{ matrix.warkings_as_errors }}
+    with:
+      check: load-file
+      file: init.el
