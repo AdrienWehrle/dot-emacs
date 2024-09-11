@@ -1,10 +1,5 @@
 name: elisp-linter
-
-on:
-  pull_request:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   check:
