@@ -356,7 +356,11 @@
           ("C-o" .  loccur-isearch)
           )))
 
+;; show clipboard history (in buffer)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+;; loop over clipboard history (in minibuffer)
+(global-set-key (kbd "C-t") 'yank-pop)
 
 ;; use helm mainly for pattern search
 (add-to-list 'load-path "~/.emacs.d/helm")
