@@ -3,7 +3,7 @@ name: CD
 on: [push]
 
 jobs:
-  check:
+  CD:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
