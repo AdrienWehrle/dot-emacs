@@ -1,0 +1,16 @@
+name: elisp-linter
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    uses: leotaku/elisp-check@master
+    with:
+      check: load-file
+      file: init.el
