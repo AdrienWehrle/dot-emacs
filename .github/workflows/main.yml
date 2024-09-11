@@ -5,27 +5,8 @@ on: [push]
 jobs:
   CD:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        emacs_version:
-          - 29.4
-        include:
-          - emacs_version: snapshot
-            ignore_warnings: false
-            warnings_as_errors: false
     steps:
-    # - uses: actions/checkout@v2
-    # - uses: purcell/setup-emacs@master
-    #   with:
-    #     version: ${{ matrix.emacs_version }}
-    # - uses: leotaku/elisp-check@master
-    #   with:
-    #     file: '*.el'
-    #     check: load-file
-    #     ignore_warnings: ${{ matrix.ignore_warnings }}
-    #     warnings_as_errors: ${{ matrix.warkings_as_errors }}
-    - uses: leotaku/elisp-check@master
-      with:
-        check: load-file
-        file: init.el
+      - uses: leotaku/elisp-check@master
+        with:
+          check: load-file
+          file: init.el
