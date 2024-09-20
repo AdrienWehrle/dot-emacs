@@ -523,6 +523,27 @@
 ;; ;; set the default folder for cloning repositories, By default Consult-GH will confirm this before cloning
 (setq consult-gh-default-clone-directory "~/")
 
+;; show previews
+(setq consult-gh-show-preview t)
+
+;; highlight code matches
+(setq consult-gh-highlight-matches t)
+
+;;show previews on demand by hitting "M-o"
+(setq consult-gh-preview-key "M-o")
+
+;;show previews in org-mode
+(setq consult-gh-preview-buffer-mode 'org-mode)
+
+;;open files that contain code snippet in an emacs buffer
+(setq consult-gh-code-action 'consult-gh--code-view-action)
+
+;;open files in an emacs buffer
+(setq consult-gh-file-action 'consult-gh--files-view-action)
+
+;;open file tree of repo on selection
+(consult-gh-repo-action 'consult-gh--repo-browse-files-action)
+
 ;; -------------------------------------------- MOOSE
 
 ;; syntax highlighting for MOOSE input and test files
