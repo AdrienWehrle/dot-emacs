@@ -395,7 +395,7 @@
   :config
   (marginalia-mode 1))
 
-;; -------------------------------------------- git push
+;; -------------------------------------------- git
 
 ;; make shell-command to pick up .bashrc aliases
 (setq shell-file-name "bash")
@@ -425,6 +425,19 @@
 
 (global-set-key (kbd "C-c f") 'find-gh-code)
 
+;; a GitHub CLI client inside GNU Emacs using Consult
+;; note: make sure gh CLI is setup (gh auth login)
+(add-to-list 'load-path "~/.emacs.d/custom-modes/consult-gh")
+(require 'consult-gh)
+
+;; add your main GitHub account (replace "armindarvish" with your user or org)
+(add-to-list 'consult-gh-default-orgs-list "AdrienWehrle")
+
+;; ;; use "gh org list" to get a list of all your organizations and adds them to default list
+(setq consult-gh-default-orgs-list (append consult-gh-default-orgs-list (remove "" (split-string (or (consult-gh--command-to-string "org" "list") "") "\n"))))
+
+;; ;; set the default folder for cloning repositories, By default Consult-GH will confirm this before cloning
+(setq consult-gh-default-clone-directory "~/")
 
 ;; -------------------------------------------- MOOSE
 
