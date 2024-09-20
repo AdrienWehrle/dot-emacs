@@ -381,6 +381,20 @@
 (add-to-list 'load-path "~/.emacs.d/color-moccur.el")
 (require 'color-moccur)
 
+;; vertical completion in minibuffer
+(use-package vertico
+  :ensure t
+  :config
+  (setq vertico-cycle t)
+  (setq vertico-resize nil)
+  (vertico-mode 1))
+
+;; add useful annotations to completion candidates
+(use-package marginalia
+  :ensure t
+  :config
+  (marginalia-mode 1))
+
 ;; -------------------------------------------- git push
 
 ;; make shell-command to pick up .bashrc aliases
