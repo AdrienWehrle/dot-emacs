@@ -503,11 +503,12 @@
 
 ;; Scrape own private and public Github repositories
 ;; for existing code matching input
+;; consult-gh-search-my-code currently used instead
 (defun find-gh-code (code) 
   (interactive "Mcode:") 
   (shell-command (format "ghcode -ri %s" code)))
 
-(global-set-key (kbd "C-c f") 'find-gh-code)
+;; (global-set-key (kbd "C-c f") 'find-gh-code)
 
 ;; a GitHub CLI client inside GNU Emacs using Consult
 ;; note: make sure gh CLI is setup (gh auth login)
@@ -542,7 +543,16 @@
 (setq consult-gh-file-action 'consult-gh--files-view-action)
 
 ;;open file tree of repo on selection
-(consult-gh-repo-action 'consult-gh--repo-browse-files-action)
+(setq consult-gh-repo-action 'consult-gh--repo-browse-files-action)
+
+;; only search my own codebase
+(defun consult-gh-search-my-code (&optional initial repo noaction)
+  "Search my own code"
+  (interactive)
+  (let ((consult-gh-search-code-args (append consult-gh-search-code-args '("--owner=AdrienWehrle"))))
+    (consult-gh-search-code initial repo noaction)))
+
+(global-set-key (kbd "C-c f") 'consult-gh-search-my-code)
 
 ;; -------------------------------------------- MOOSE
 
