@@ -205,6 +205,19 @@
   (let ((daily-name (format-time-string "%y%m%d_%H%M%S")))
     (find-file (format "~/Notes/Notes_%s.org" daily-name))))
 
+;; setup emacs popups for org-alert
+(require 'org-alert)
+(setq alert-default-style 'libnotify)
+
+;; set org-alert to check your agenda file every 5 minutes,
+;; start notifying you of a scheduled event 10 minutes before the event,
+;; and stop notifying you of the event 10 minutes after the scheduled time
+;; has passed.
+(setq org-alert-interval 300
+      org-alert-notify-cutoff 30
+      org-alert-notify-after-event-cutoff 10)
+(org-alert-enable)
+
 ;; -------------------------------------------- yaml
 
 (require 'yaml-mode) 
