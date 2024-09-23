@@ -949,6 +949,21 @@
 (set-face-foreground 'flycheck-fringe-error "#FF0000")
 (fringe-mode '(14 . 0))
 
+;; -------------------------------------------- terminal emulator
+
+;; start terminal
+(global-set-key (kbd "C-c v") 'multi-vterm)
+
+;; toggle to previous terminal instance
+(add-hook 'vterm-mode-hook (lambda () 
+				       (local-set-key (kbd "C-x <C-prior>")
+						      'multi-vterm-prev)))
+
+;; toggle to next terminal instance
+(add-hook 'vterm-mode-hook (lambda () 
+				       (local-set-key (kbd "C-x <C-next>")
+						      'multi-vterm-next)))
+
 ;; -------------------------------------------- tramp
 
 ;; Faster than the default scp (for small files)
