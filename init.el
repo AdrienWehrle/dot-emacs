@@ -274,6 +274,15 @@
 (require 'thesaurus)
 (eval-after-load 'latex '(define-key LaTeX-mode-map (kbd "C-c t")  #'get-synonyms))
 
+;; complete citations by scanning bibtex file
+(use-package citar
+  :custom
+  (citar-bibliography '("~/bib/references.bib"))
+  :hook
+  (LaTeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup))
+(eval-after-load 'latex '(define-key LaTeX-mode-map (kbd "C-c C-p")  #'citar-insert-citation))
+
 
 ;; -------------------------------------------- useful global settings
 
