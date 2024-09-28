@@ -944,10 +944,14 @@
 					   'run-pycell)))
 
 ;; switch to ipython buffer
+;; switch to ipython buffer
 (defun switch-to-ipython-buffer ()
   (interactive)
-  (switch-to-buffer "*Python*"))
-
+  (if (get-buffer "*Python*")
+      (switch-to-buffer "*Python*")
+    ((run-python)
+     (switch-to-buffer "*Python*"))))
+  
 (global-set-key (kbd "C-c p")  #'switch-to-ipython-buffer)
 
 ;; insert docstring skeleton for Python functions and methods
