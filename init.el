@@ -991,6 +991,16 @@
 				       (local-set-key (kbd "C-x <C-next>")
 						      'multi-vterm-next)))
 
+;; start terminal
+(global-set-key (kbd "C-c v") 'multi-vterm)
+
+;; switch to ipython buffer
+(defun switch-to-vterm-buffer ()
+  (interactive)
+  (if (get-buffer "*vterminal<1>*")
+      (switch-to-buffer "*vterminal<1>*")))
+(global-set-key (kbd "C-c l")  #'switch-to-vterm-buffer)
+
 ;; -------------------------------------------- tramp
 
 ;; Faster than the default scp (for small files)
