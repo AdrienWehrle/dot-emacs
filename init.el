@@ -1006,7 +1006,7 @@
 ;; Faster than the default scp (for small files)
 (setq tramp-default-method "ssh")
 
-(provide '.emacs)
+(provide 'init.el)
 
 ;;;.emacs ends here
 
