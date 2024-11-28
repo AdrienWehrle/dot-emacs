@@ -501,6 +501,10 @@
   :config
   (marginalia-mode 1))
 
+;; use bufler to group buffers per project
+(use-package bufler
+  :config (bind-key "C-c C-b" #'bufler-list))
+
 ;; -------------------------------------------- git
 
 ;; make shell-command to pick up .bashrc aliases
