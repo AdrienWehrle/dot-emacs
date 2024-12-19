@@ -1,17 +1,15 @@
 * Emacs configuration
 
-My [[https://www.gnu.org/software/emacs/][emacs]] configuration with [[https://www.spacemacs.org/][spacemacs]] appearance ([[https://github.com/nashamri/spacemacs-theme#:~:text=Spacemacs%20theme%20is%20an%20Emacs,well%20with%20256%20color%20terminals.][spacemacs-theme]] and [[https://github.com/TheBB/spaceline][spaceline]]). 
-
-I use it mainly to code/write in:
-- Python 
-- C/C++
-- Shell/Bash
-- SWIG
-- TeX
-- Org mode
+My everyday workflow is based on my [[https://www.gnu.org/software/emacs/][emacs]] configuration. Appearance
+follows [[https://www.spacemacs.org/][spacemacs]] ([[https://github.com/nashamri/spacemacs-theme#:~:text=Spacemacs%20theme%20is%20an%20Emacs,well%20with%20256%20color%20terminals.][spacemacs-theme]] and [[https://github.com/TheBB/spaceline][spaceline]]). I use it to
+code/write (mainly in Python, C++, bash, SWIG, tex, org) but also for
+agenda planning and task management, version control, remote access,
+terminal emulation, and more applications that I find useful. And
+probably more in the future.  Keep improving fast movement and
+efficient key bindings is part of the process, too.
 
 ** Setup
-This is a very basic configuration at the moment, but if you want to try it:
+If you want to try this configuration:
 
 First, clone the repository.
 #+BEGIN_SRC sh :tangle no
